@@ -1,6 +1,6 @@
 {
   "name": "bower-register-github-org-repos",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Goes through a GitHub organization's repositories and register each of them with Bower",
   "main": "index.js",
   "scripts": {

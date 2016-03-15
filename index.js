@@ -96,7 +96,7 @@ async.waterfall([
 						}
 
 						// Register the package
-						console.log('Registering', repo.name, 'at', data.url);
+						console.log('Registering', repo.name, 'at', repo.endpoint);
 						registry.register(repo.name, repo.endpoint, cb);
 					});
 				}

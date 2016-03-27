@@ -76,18 +76,28 @@ async.waterfall([
 	/**
 	 * Looks up each repository to see if it's name is registered in the bower registry
 	 *
-	 * @param repos
-	 * @param cb
+	 * @param {Array} repos - The repositories
+	 * @param {requestCallback} cb
 	 */
 	function(repos, cb) {
 		console.log('Found', repos.length, 'repositories');
 
 		async.eachSeries(repos, function(repo, cb) {
 			async.waterfall([
-				// Checks if the package exists within the bower registry
+				/**
+				 * Checks if the package exists within the bower registry
+				 *  
+				 * @param {requestCallback} cb
+				 */
 				function(cb) {
 					registry.lookup(repo.name, cb);
 				},
+				/**
+				 * Handles the information from the bower registry and takes the appropriate action
+				 * 
+				 * @param {Object} data
+				 * @param {requestCallback} cb
+				 */
 				function(data, cb) {
 					// If the package exists
 					if (data) {

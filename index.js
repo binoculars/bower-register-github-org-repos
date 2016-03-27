@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var async = require('async');
+var chalk = require('chalk');
 var GitHubApi = require("github");
 var RegistryClient = require('bower-registry-client');
 var Config = require('bower-config');
@@ -26,13 +27,22 @@ var github = new GitHubApi({
 });
 
 async.waterfall([
-	// Lists the organization's info
+	/**
+	 * Lists the organization's info
+	 *
+	 * @param {requestCallback} cb
+	 */
 	function(cb) {
 		github.orgs.get({
 			org: organization
 		}, cb);
 	},
-	// Loops over each paged result of repositories and combine them into a single array
+	/**
+	 * Loops over each paged result of repositories and combine them into a single array
+	 *
+	 * @param {Object} data - The output from GitHub orgs get
+	 * @param {requestCallback} cb
+	 */
 	function(data, cb) {
 		var i = 0;
 		var pageCount = Math.ceil(data.public_repos / 100);
@@ -63,7 +73,12 @@ async.waterfall([
 			}
 		);
 	},
-	// Looks up each repository to see if it's name is registered in the bower registry
+	/**
+	 * Looks up each repository to see if it's name is registered in the bower registry
+	 *
+	 * @param repos
+	 * @param cb
+	 */
 	function(repos, cb) {
 		console.log('Found', repos.length, 'repositories');
 
@@ -76,7 +91,7 @@ async.waterfall([
 				function(data, cb) {
 					// If the package exists
 					if (data) {
-						console.log(repo.name, 'is already registered at', data.url);
+						console.log(chalk.yellow(repo.name, 'is already registered at', data.url));
 						return cb();
 					}
 
@@ -91,12 +106,12 @@ async.waterfall([
 
 						// If there is no bower.json file
 						if (!data) {
-							console.log(repo.name, 'does not have a bower.json file');
+							console.log(chalk.red(repo.name, 'does not have a bower.json file'));
 							return cb();
 						}
 
 						// Register the package
-						console.log('Registering', repo.name, 'at', repo.endpoint);
+						console.log(chalk.green('Registering', repo.name, 'at', repo.endpoint));
 						registry.register(repo.name, repo.endpoint, cb);
 					});
 				}

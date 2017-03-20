@@ -4,6 +4,8 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/binoculars/bower-register-github-org-repos/badge.svg)](https://snyk.io/test/github/binoculars/bower-register-github-org-repos)
 
 ### Usage
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/binoculars/bower-register-github-org-repos.svg)](https://greenkeeper.io/)
 ```Shell
 npm i -g bower-register-github-org-repos
 brgor <GitHub Organization>
